@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  proveedores-front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: proveedores-front
+    ports:
+    - '8080:8080'
+    volumes:
+      - nodemodules-proveedores-front:/home/node/proveedores-front/node_modules
+      - .:/home/node/proveedores-front
+    working_dir: /home/node/proveedores-front
+    command: /bin/sh -c "npm install && npm run serve"
+
+volumes:
+  nodemodules-proveedores-front:
+    external: true
+
