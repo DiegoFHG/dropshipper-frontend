@@ -19,6 +19,7 @@
           :description="product.description"
           :price="product.price"
           :key="product.id"
+          :seller="product.seller"
         />
       </template>
     </div>
@@ -57,6 +58,6 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(auto, 400px));
   grid-gap: 50px;
   grid-area: max-content;
-  justify-content: auto;
+  justify-content: space-evenly;
 }
 </style>

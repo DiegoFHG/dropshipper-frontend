@@ -43,6 +43,12 @@ export default new Vuex.Store({
         removeProduct(state, payload) {
           state.products = state.products.filter((product) => product.id !== payload);
         },
+        editProduct(state, payload) {
+          state.products = state.products.map((product) => {
+            if (product.id === payload.id) return payload;
+            return product;
+          });
+        },
       },
       actions: {
         setProducts({ commit }, payload) {
@@ -53,6 +59,9 @@ export default new Vuex.Store({
         },
         removeProduct({ commit }, payload) {
           commit('removeProduct', payload);
+        },
+        editProduct({ commit }, payload) {
+          commit('editProduct', payload);
         },
       },
     },

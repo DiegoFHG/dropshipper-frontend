@@ -1,5 +1,14 @@
 <template>
   <v-card max-width="400px">
+    <v-img width="400px" height="300px" src="@/assets/images/no-image-product.webp">
+      <div style="display: flex; height: 100%;">
+        <v-row align="center">
+          <v-col align="center">
+            <span class="white--text">Producto sin imagen</span>
+          </v-col>
+        </v-row>
+      </div>
+    </v-img>
     <v-card-title>
       {{ title }}
     </v-card-title>
@@ -25,13 +34,20 @@ export default {
       type: Number,
       default: 0.0,
     },
+    image: {
+      type: String,
+    },
+    seller: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {};
   },
   computed: {
     priceToLocaleCurrency() {
-      return this.price.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
+      return this.price.toLocaleString(undefined, { style: 'currency', currency: 'EUR' });
     },
   },
 };

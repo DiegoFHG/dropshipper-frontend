@@ -2,9 +2,8 @@
   <v-container>
     <h1>Perfil</h1>
     <div v-if="user">
-      <span>Nombre: {{ user.first_name }} {{ user.last_name }}</span>
-      <span >Email: {{ user.email }}</span>
-      <span>Is seller: {{ user.seller ? 'Yes' : 'No' }}</span>
+      <h2>Nombre: {{ user.first_name }} {{ user.last_name }}</h2>
+      <h2>Email: {{ user.email }}</h2>
       <br />
       <v-btn
         text

@@ -2,10 +2,11 @@
   <v-app>
     <v-app-bar app fixed color="white" elevate-on-scroll>
       <router-link class="router-link d-flex" to="/">
-        <v-icon>mdi-package</v-icon>
+        <v-icon color="blue">mdi-package</v-icon>
         <span class="title font-weight-regular ml-3">Dropshipper</span>
       </router-link>
-      <div class="app-bar-search-bar-container hidden-sm-and-down" v-show="$route.name === 'Home'">
+      <div class="app-bar-search-bar-container hidden-sm-and-down" v-show="$route.name === 'Home' ||
+        $route.name === 'Search'">
         <v-text-field
           hide-details
           outlined
@@ -15,6 +16,7 @@
           single-line
           label="Buscar"
           prepend-inner-icon="mdi-magnify"
+          @click:prepend-inner="search"
           v-on:keyup.enter="search"
           v-model="searchTerm"
         />
@@ -66,7 +68,11 @@ export default {
   methods: {
     ...mapActions(['setUser', 'removeUser']),
     async search() {
+      const { data: results } = await this.$axios.post('api/products/search', {
+        search_term: this.searchTerm,
+      });
 
+      this.$router.push({ name: 'Search', params: { results, searchTerm: this.searchTerm } });
     },
     async logout() {
       await this.$axios.delete('api/logout');

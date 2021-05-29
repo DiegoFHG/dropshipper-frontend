@@ -17,13 +17,48 @@
       </v-btn>
       <v-btn text :disabled="productDeleteSpinner" @click.stop="productDeleteDialog = true">Eliminar</v-btn>
       <v-spacer />
-      <v-btn text>Editar</v-btn>
+      <v-btn text @click.stop="productEditDialog = true">Editar</v-btn>
     </v-card-actions>
-    <v-dialog v-model="productDeleteDialog" persisten max-width="400px">
+    <v-dialog v-model="productEditDialog" persistent max-width="700px">
+      <v-card>
+        <v-card-title>Editar producto</v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-text-field outlined label="Nombre" v-model="productName" />
+            <v-row>
+              <v-col>
+                <v-text-field outlined label="Cantidad" v-model="productAmount" />
+              </v-col>
+              <v-col>
+                <v-text-field outlined label="Precio" v-model="productPrice" />
+              </v-col>
+              <v-col>
+                <v-text-field outlined label="Cantidad minima por compra"
+                  v-model="productMinPurchaseAmount" />
+              </v-col>
+            </v-row>
+            <v-textarea outlined clearable label="Descripción" v-model="productDescription" />
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn text @click="productEditDialog = false">Cancelar</v-btn>
+          <v-spacer />
+          <v-btn
+            text
+            color="blue"
+            :disabled="productEditSpinner"
+            @click="updateProduct"
+          >
+            Editar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="productDeleteDialog" persistent max-width="400px">
       <v-card>
         <v-card-title>¿Esta seguro que quiere borrar este producto?</v-card-title>
         <v-card-text>
-          Al aceptar, el producto {{ title }} sera eliminado permanentemente. Esta operacion es irreversible.
+          Al aceptar, el producto "{{ title }}" sera eliminado permanentemente. Esta operacion es irreversible.
         </v-card-text>
         <v-card-actions>
           <v-btn text color="red" @click="deleteProduct">Borrar</v-btn>
@@ -56,6 +91,14 @@ export default {
       type: Number,
       default: 0.0,
     },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    minPurchase: {
+      type: Number,
+      required: true,
+    },
     active: {
       type: Boolean,
       required: true,
@@ -66,12 +109,19 @@ export default {
       productActive: this.active,
       productDeleteSpinner: false,
       productToggleSpinner: false,
+      productEditSpinner: false,
       productDeleteDialog: false,
+      productEditDialog: false,
+      productName: this.title,
+      productDescription: this.description,
+      productPrice: this.price,
+      productAmount: this.amount,
+      productMinPurchaseAmount: this.minPurchase,
     };
   },
   methods: {
     ...mapActions('seller', [
-      'removeProduct',
+      'removeProduct', 'editProduct',
     ]),
     async deleteProduct() {
       this.productDeleteDialog = false;
@@ -91,6 +141,21 @@ export default {
           // TODO: Show snackbar.
         }
       }
+    },
+    async updateProduct() {
+      this.productEditSpinner = true;
+      this.productEditDialog = false;
+
+      const { data } = await this.$axios.patch(`api/products/${this.id}`, {
+        name: this.productName === this.name ? undefined : this.productName,
+        price: this.productPrice === this.price ? undefined : this.productPrice,
+        description: this.productDescription === this.description ? undefined : this.productDescription,
+        amount: this.productAmount === this.amount ? undefined : this.productAmount,
+        min_amount_purchase: this.productMinPurchaseAmount === this.minPurchase ? undefined : this.productMinPurchaseAmount,
+      });
+
+      this.editProduct(data);
+      this.productEditSpinner = false;
     },
     async toggleActive() {
       const { data: { available } } = await this.$axios.patch(`api/products/${this.id}`, {

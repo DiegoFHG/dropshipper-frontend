@@ -19,12 +19,14 @@
           :title="product.name"
           :description="product.description"
           :price="product.price"
+          :amount="product.amount"
+          :minPurchase="product.min_amount_purchase"
           :active="product.available"
           :key="product.id"
         />
       </template>
     </div>
-    <div v-if="products.length === 0">
+    <div v-if="products.length === 0 || fetchedProducts === false">
       <h1>No hay productos</h1>
     </div>
   </div>
