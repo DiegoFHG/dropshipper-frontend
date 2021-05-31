@@ -22,6 +22,7 @@ export default new Vuex.Store({
     },
     removeUser({ commit }) {
       commit('setUser', undefined);
+      localStorage.setItem('user', undefined);
     },
   },
   modules: {

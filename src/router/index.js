@@ -5,6 +5,7 @@ import LogIn from '../views/LogIn.vue';
 import Profile from '../views/Profile.vue';
 import SellerProfile from '../views/SellerProfile.vue';
 import Search from '../views/Search.vue';
+import Register from '../views/Register.vue';
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,11 @@ const routes = [
     path: '/login',
     name: 'LogIn',
     component: LogIn,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
   },
   {
     path: '/profile',

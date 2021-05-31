@@ -7,7 +7,7 @@
       <br />
       <v-btn
         text
-        v-if="user.seller !== undefined"
+        v-if="user.seller !== null"
         @click="$router.push('/profile/seller')"
       >
         Ver perfil de vendedor
@@ -42,7 +42,7 @@
             text
             v-on="on"
             v-bind="attrs"
-            v-if="user.seller === undefined"
+            v-if="user.seller === null"
           >
             Crear cuenta de vendedor
           </v-btn>

@@ -2,11 +2,11 @@
   <v-container fluid>
     <v-row align="center">
       <v-col align="center">
-        <h1 class="display-2">Iniciar sesion</h1>
+        <h1 class="display-2">Iniciar sesión</h1>
         <div class="login-container">
           <v-text-field outlined label="Correo electronico" v-model="email" />
           <v-text-field outlined label="Contraseña" type="password" v-model="password" />
-          <v-btn text @click="login">Iniciar session</v-btn>
+          <v-btn text @click="login">Iniciar sesión</v-btn>
         </div>
       </v-col>
     </v-row>
